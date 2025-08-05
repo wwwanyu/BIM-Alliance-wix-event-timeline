@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #outsider {
+    height: 100vh;
+    width: 100%;
+    overflow: scroll;
+    position: relative;
+    display: inline-block;
+  }
+
+  #outsider:hover {
+    animation-play-state: paused;
+  }
+
+  #insider {
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+  }
+
+  .scroll-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 12px 96px 12px 0;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar */
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scroll-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 12px 96px 12px 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar */
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .events-row {
+    display: flex;
+    flex-direction: row;
+    gap: 28px;
+    position: relative;
+    flex-shrink: 0;
+    min-width: max-content;
+  }
+
+  .events-row.even {
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0 88px 0 0;
+  }
+
+  .events-row.odd {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 0 0 160px;
+  }
+
+  .timeline-stroke {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .timeline-line {
+    background-color: #c0d2dd;
+    height: 6px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .event-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    flex-shrink: 0;
+    padding: 8px 16px;
+  }
+
+  .event-card.even {
+    justify-content: flex-end;
+    padding-top: 8px;
+    padding-bottom: 0;
+  }
+
+  .event-card.odd {
+    justify-content: flex-end;
+    padding-top: 0;
+    padding-bottom: 8px;
+  }
+
+  .thumbnail-section {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .thumbnail {
+    position: relative;
+    border-radius: 24px;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+  }
+
+  .thumbnail-inner {
+    overflow: hidden;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 24px;
+  }
+
+  .thumbnail-image {
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 60px;
+    top: 50%;
+    left: calc(50% + 0.214px);
+    transform: translate(-50%, -50%);
+    width: 106.429px;
+  }
+
+  .thumbnail-border {
+    position: absolute;
+    border: 2px solid #c0d2dd;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 24px;
+  }
+
+  .upcoming-badge {
+    background-color: #f6e608;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 8px;
+    position: relative;
+    border-radius: 30px;
+    flex-shrink: 0;
+  }
+
+  .upcoming-text {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: bold;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+    color: #1a303e;
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .upcoming-text p {
+    display: block;
+    line-height: normal;
+    white-space: pre;
+  }
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    flex-shrink: 0;
+    padding: 8px 0 24px 12px;
+  }
+
+  .text-section.odd {
+    padding: 24px 0 8px 12px;
+  }
+
+  .text-section::before {
+    content: "";
+    position: absolute;
+    border-left: 2px solid #c0d2dd;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .event-title {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: bold;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 1;
+    color: #3c5564;
+    font-size: 18px;
+    text-align: left;
+    width: 180px;
+  }
+
+  .event-title p {
+    display: block;
+    line-height: 22px;
+  }
+
+  .event-date {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: normal;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+    color: #527286;
+    font-size: 18px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .event-date p {
+    display: block;
+    line-height: normal;
+    white-space: pre;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 0 0 20px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .nav-button {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 100px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+    top: calc(50% - 0.374px);
+  }
+
+  .nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-button.left {
+    left: 8.5px;
+  }
+
+  .nav-button.right {
+    right: 7.5px;
+  }
+
+  .nav-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+  }
+</style>
+
+<body>
+  <div id="outsider">
+    <div id="insider">
+      <div class="scroll-container">
+        <!-- Even row - events above timeline -->
+        <div id="evenRow" class="events-row even">
+          <!-- Events will be dynamically inserted here -->
+        </div>
+        <!-- Timeline stroke -->
+        <div class="timeline-stroke">
+          <div class="timeline-line"></div>
+        </div>
+        <!-- Odd row - events below timeline -->
+        <div id="oddRow" class="events-row odd">
+          <!-- Events will be dynamically inserted here -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation buttons -->
+    <button id="button-left" onclick="scrollLft()" class="nav-button left" aria-label="Scroll left">
+      <div class="nav-icon">
+        <svg viewBox="0 0 40 40" preserveAspectRatio="none">
+          <path d="M23.8004 0.312156C24.1802 -0.0886996 24.8126 -0.105736 25.2135 0.27407C25.6143 0.653909 25.6314 1.28625 25.2516 1.68716L8.36777 19.5075L25.734 38.3209C26.1084 38.7266 26.0837 39.3594 25.6783 39.734C25.2978 40.0853 24.7171 40.0856 24.3375 39.7497L24.2652 39.6784L6.26523 20.1784C5.90825 19.7916 5.91206 19.1942 6.27402 18.8122L23.8004 0.312156Z" fill="white" />
+        </svg>
+      </div>
+    </button>
+    <button id="button-right" onclick="scrollRight()" class="nav-button right" aria-label="Scroll right">
+      <div class="nav-icon">
+        <svg viewBox="0 0 40 40" preserveAspectRatio="none">
+          <path d="M16.1996 0.312156C15.8198 -0.0886996 15.1874 -0.105736 14.7865 0.27407C14.3857 0.653909 14.3686 1.28625 14.7484 1.68716L31.6322 19.5075L14.266 38.3209C13.8916 38.7266 13.9163 39.3594 14.3217 39.734C14.7022 40.0853 15.2829 40.0856 15.6625 39.7497L15.7348 39.6784L33.7348 20.1784C34.0918 19.7916 34.0879 19.1942 33.726 18.8122L16.1996 0.312156Z" fill="white" />
+        </svg>
+      </div>
+    </button>
+  </div>
+
+  <script>
+    // Event data
+    const eventsData = [{
+        image: "https://images.unsplash.com/photo-1486312338219-ce68e2c6b7be?w=200&h=200&fit=crop&crop=center",
+        title: "BIM基本能力認證-建築建模、機電建模",
+        date: "1月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop&crop=center",
+        title: "GIS x BIM 交流會｜地理資訊與數位建築的交匯",
+        date: "3月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
+        title: "5/29 國際學者講座｜ASCE JCEM 主編 Prof. Carlos Caldas 訪台演講",
+        date: "5月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&h=200&fit=crop&crop=center",
+        title: "BIM Summer programs",
+        date: "7月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=200&h=200&fit=crop&crop=center",
+        title: "台灣 BIM 聯盟會員線上成果展演--建國工程",
+        date: "9月6日",
+        isUpcoming: true
+      },
+      {
+        image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=200&h=200&fit=crop&crop=center",
+        title: "台灣 BIM 聯盟會員線上成果展演--台灣世曦工程顧問股份有限公司",
+        date: "11月6日",
+        isUpcoming: true
+      }
+    ];
+    const oddEventsData = [{
+        image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=200&h=200&fit=crop&crop=center",
+        title: "麗明營造 ISO19650 BIM Level 2 風箏標誌頒證典禮",
+        date: "2月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1486312338219-ce68e2c6b7be?w=200&h=200&fit=crop&crop=center",
+        title: "BIM基本能力認證-建築建模、機電建模",
+        date: "4月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1542626991-cbc4e32524cc?w=200&h=200&fit=crop&crop=center",
+        title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
+        date: "6月6日",
+        isUpcoming: false
+      },
+      {
+        image: "https://images.unsplash.com/photo-1486312338219-ce68e2c6b7be?w=200&h=200&fit=crop&crop=center",
+        title: "台灣 BIM 聯盟會員線上成果展演--泛亞工程建設股份有限公司",
+        date: "8月6日",
+        isUpcoming: true
+      },
+      {
+        image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop&crop=center",
+        title: "台灣 BIM 聯盟會員線上成果展演--瑞助營造股份有限公司",
+        date: "10月6日",
+        isUpcoming: true
+      },
+      {
+        image: "https://images.unsplash.com/photo-1486312338219-ce68e2c6b7be?w=200&h=200&fit=crop&crop=center",
+        title: "台灣 BIM 聯盟會員線上成果展演--眾象諮詢有限公司",
+        date: "12月6日",
+        isUpcoming: true
+      }
+    ];
+    // Function to create event card HTML
+    function createEventCard(event, isOdd = false) {
+      const upcomingBadge = event.isUpcoming ? `
+                <div class="upcoming-badge">
+                    <div class="upcoming-text">
+                        <p>即將舉辦</p>
+                    </div>
+                </div>
+            ` : '';
+      const thumbnailSection = `
+                <div class="thumbnail-section">
+                    <div class="thumbnail">
+                        <div class="thumbnail-inner">
+                            <div class="thumbnail-image" style="background-image: url('${event.image}');"></div>
+                        </div>
+                        <div class="thumbnail-border"></div>
+                    </div>
+                    ${upcomingBadge}
+                </div>
+            `;
+      const textSection = `
+                <div class="container">
+                    <div class="text-section ${isOdd ? 'odd' : ''}">
+                        <div class="event-title">
+                            <p>${event.title}</p>
+                        </div>
+                        <div class="event-date">
+                            <p>${event.date}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+      const eventCard = document.createElement('div');
+      eventCard.className = `event-card ${isOdd ? 'odd' : 'even'}`;
+      if (isOdd) {
+        eventCard.innerHTML = textSection + thumbnailSection;
+      } else {
+        eventCard.innerHTML = thumbnailSection + textSection;
+      }
+      return eventCard;
+    }
+    // Initialize the timeline
+    function initializeTimeline() {
+      const evenRow = document.getElementById('evenRow');
+      const oddRow = document.getElementById('oddRow');
+      // Add even events
+      eventsData.forEach(event => {
+        evenRow.appendChild(createEventCard(event, false));
+      });
+      // Add odd events
+      oddEventsData.forEach(event => {
+        oddRow.appendChild(createEventCard(event, true));
+      });
+    }
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeTimeline();
+    });
+    const outsider = document.getElementById('outsider');
+    const distance = 240;
+
+    function scrollLft() {
+      outsider.scrollBy({
+        left: -distance,
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollRight() {
+      outsider.scrollBy({
+        left: distance,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html>
