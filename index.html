@@ -330,6 +330,7 @@
 </style>
 
 <body>
+  <div id="result"></div>
   <div id="outsider">
     <div id="insider">
       <div class="scroll-container">
@@ -365,7 +366,6 @@
       </div>
     </button>
   </div>
-
   <script>
     // Event data
     const eventsData = [{
@@ -516,7 +516,52 @@
         behavior: 'smooth'
       });
     }
+
+    // Call API
+    fetch('https://bimalliance.tw/_functions/multiply?leftOperand=3&rightOperand=4')
+      .then(response => response.json()) // 將回傳資料轉成 JSON
+      .then(data => {
+        // Dislay the result in the HTML
+        document.getElementById('result').textContent = data.result;
+      })
+      .catch(error => {
+        console.error('發生錯誤：', error);
+        document.getElementById('result').textContent = '發生錯誤，無法取得資料';
+      });
   </script>
+  <!-- <script type="module">
+    import {
+      OAuthStrategy,
+      createClient
+    } from "https://unpkg.com/@wix/sdk?module";
+    import {
+      functions
+    } from "https://unpkg.com/@wix/http-functions?module";
+
+    const client = createClient({
+      auth: OAuthStrategy({
+        clientId: "{YOUR_HEADLESS_CLIENT_ID}"
+      }),
+      modules: {
+        functions
+      },
+    });
+
+    async function getCurrentMember() {
+      try {
+        const response = await client.functions.get("member");
+        const data = await response.json();
+        const {
+          member
+        } = data;
+        console.log("Member:", member);
+      } catch (error) {
+        console.error("Error fetching member:", error);
+      }
+    }
+
+    getCurrentMember();
+  </script> -->
 </body>
 
 </html>
