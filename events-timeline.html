@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+
+  #outsider {
+    height: 100vh;
+    width: 100%;
+    overflow: scroll;
+    position: relative;
+    display: inline-block;
+  }
+
+  #outsider:hover {
+    animation-play-state: paused;
+  }
+
+  #insider {
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+  }
+
+  .timeline-line {
+    background-color: #c0d2dd;
+    height: 6px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .thumbnail-section {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .thumbnail {
+    position: relative;
+    border-radius: 24px;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+  }
+
+  .thumbnail-inner {
+    overflow: hidden;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 24px;
+  }
+
+  .thumbnail-image {
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 60px;
+    top: 50%;
+    left: calc(50% + 0.214px);
+    transform: translate(-50%, -50%);
+    width: 106.429px;
+  }
+
+  .thumbnail-border {
+    position: absolute;
+    border: 2px solid #c0d2dd;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 24px;
+  }
+
+  .upcoming-badge {
+    position: absolute;
+    width: max-content;
+    height: fit-content;
+    background-color: #f6e608;
+    padding: 6px 8px;
+    border-radius: 30px;
+  }
+
+  .upcoming-text {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: bold;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+    color: #1a303e;
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .upcoming-text p {
+    display: block;
+    line-height: normal;
+    white-space: pre;
+  }
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    flex-shrink: 0;
+    padding: 8px 0 24px 12px;
+  }
+
+  .text-section.odd {
+    padding: 24px 0 8px 12px;
+  }
+
+  .event-title {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: bold;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 1;
+    color: #3c5564;
+    font-size: 18px;
+    text-align: left;
+    width: 260px;
+  }
+
+  .event-title p {
+    display: block;
+    line-height: 22px;
+  }
+
+  .event-date {
+    font-family: "Taipei Sans TC Beta", sans-serif;
+    font-weight: normal;
+    line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+    color: #527286;
+    font-size: 18px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .event-date p {
+    display: block;
+    line-height: normal;
+    white-space: pre;
+  }
+
+  .nav-button {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 100px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+    top: calc(50% - 0.374px);
+  }
+
+  .nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-button.left {
+    left: 8.5px;
+  }
+
+  .nav-button.right {
+    right: 7.5px;
+  }
+
+  .nav-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+  }
+
+  .events {
+    display: grid;
+    position: relative;
+    padding: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: max-content 6px min-content;
+  }
+
+  .timeline-stroke {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: max-content;
+    background-color: #C0D2DD;
+  }
+
+  .item {
+    position: relative;
+    width: max-content;
+  }
+
+  a.item:link {
+    text-decoration: none;
+  }
+
+  .events .item:nth-child(odd) {
+    padding: 0 88px 0 0;
+    align-self: end;
+  }
+
+  .events .item:nth-child(odd) .upcoming-badge {
+    top: 16px;
+    left: 70px;
+  }
+
+  a.item:nth-child(odd) .text-section {
+    background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, rgba(223, 234, 238, 0.00) 100%);
+    transition: all 0.5s ease-out;
+  }
+
+  a.item:nth-child(odd):hover .text-section {
+    background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, #DFEAEE 100%);
+  }
+
+  .events .item:nth-child(even) {
+    display: flex;
+    grid-row: third-line;
+    flex-direction: column-reverse;
+    align-self: start;
+    justify-content: flex-start;
+    margin: 0 0 0 160px;
+  }
+
+  a.item:nth-child(even):hover .text-section {
+    background: linear-gradient(180deg, #DFEAEE 0%, rgba(223, 234, 238, 0.00) 100%);
+  }
+
+  .events .item:nth-child(even) .upcoming-badge {
+    bottom: 16px;
+    left: 68px;
+  }
+
+  .text-section {
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 2px solid #c0d2dd;
+  }
+
+  .scroll-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .white-gradient {
+    display: none;
+  }
+
+  .collapse-button {
+    display: none;
+  }
+
+  .collapse {
+    height: initial;
+  }
+
+  @media screen and (max-width: 768px) {
+    .timeline-stroke {
+      display: none;
+    }
+
+    .text-section {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .nav-button {
+      display: none;
+    }
+
+    .events {
+      display: flex;
+      justify-content: start;
+      flex-direction: column-reverse;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .white-gradient {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.80) 76.92%);
+    }
+
+    .collapse-button {
+      display: block;
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      background-color: #2AA7E1;
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+      border: 0;
+    }
+
+    .events::after {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 100%;
+      background-color: #c0d2dd;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 44px;
+      z-index: -1;
+    }
+
+    .item {
+      padding: 8px 0 !important;
+      align-self: start;
+      flex-direction: row !important;
+      width: 100%;
+      gap: 12px;
+    }
+
+    .events .item:nth-child(even) {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .events .item:nth-child(even) {
+      margin: 0;
+    }
+
+    .events .item:nth-child(odd) {
+      display: flex;
+
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .event-title {
+      width: calc(100% - 140px);
+      font-size: 14px;
+    }
+
+    .event-date {
+      text-align: right;
+      font-size: 14px;
+    }
+
+    #insider {
+      width: 100%;
+    }
+
+    .text-section {
+      width: 100%;
+      flex-direction: row;
+    }
+
+    .upcoming-badge {
+      position: absolute;
+      top: initial !important;
+      right: 0;
+      bottom: 24px !important;
+      left: initial !important;
+    }
+
+    .collapse {
+      height: 220px;
+    }
+
+  }
+</style>
+
+<body>
+  <div id="result"></div>
+  <div id="outsider" class="width-100">
+    <div id="insider" class="width-100">
+      <div class="scroll-container width-100">
+        <!-- Even row - events above timeline -->
+        <div id="events" class="events collapse">
+          <button id="collapse" aria-label="collapse" onclick="collapse()" class="collapse-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
+              <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
+            </svg>
+          </button>
+          <div class="timeline-stroke"></div>
+          <div class="white-gradient"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <button id="button-left" onclick="scrollLft()" class="nav-button left" aria-label="Scroll left">
+      <div class="nav-icon">
+        <svg viewBox="0 0 40 40" preserveAspectRatio="none">
+          <path d="M23.8004 0.312156C24.1802 -0.0886996 24.8126 -0.105736 25.2135 0.27407C25.6143 0.653909 25.6314 1.28625 25.2516 1.68716L8.36777 19.5075L25.734 38.3209C26.1084 38.7266 26.0837 39.3594 25.6783 39.734C25.2978 40.0853 24.7171 40.0856 24.3375 39.7497L24.2652 39.6784L6.26523 20.1784C5.90825 19.7916 5.91206 19.1942 6.27402 18.8122L23.8004 0.312156Z" fill="white" />
+        </svg>
+      </div>
+    </button>
+    <button id="button-right" onclick="scrollRight()" class="nav-button right" aria-label="Scroll right">
+      <div class="nav-icon">
+        <svg viewBox="0 0 40 40" preserveAspectRatio="none">
+          <path d="M16.1996 0.312156C15.8198 -0.0886996 15.1874 -0.105736 14.7865 0.27407C14.3857 0.653909 14.3686 1.28625 14.7484 1.68716L31.6322 19.5075L14.266 38.3209C13.8916 38.7266 13.9163 39.3594 14.3217 39.734C14.7022 40.0853 15.2829 40.0856 15.6625 39.7497L15.7348 39.6784L33.7348 20.1784C34.0918 19.7916 34.0879 19.1942 33.726 18.8122L16.1996 0.312156Z" fill="white" />
+        </svg>
+      </div>
+    </button>
+  </div>
+  <script>
+    const outsider = document.getElementById('outsider');
+    const distance = 240;
+    const eventsList = document.getElementById('events');
+    const eventsData = [{
+        image: "https://static.wixstatic.com/media/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg",
+        title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
+        date: "1月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png/v1/fill/w_1171,h_660,fp_0.50_0.50,q_90,enc_auto/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png",
+        title: "有BIM的世界長怎樣-臺大BIM研究中心暑期高中職研習營",
+        date: "2月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png/v1/fill/w_596,h_336,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_auto/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png",
+        title: "【臺大國際暑期課程】 Digital & Green Transformation of the Built Environment",
+        date: "3月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png/v1/fill/w_1241,h_700,fp_0.50_0.50,q_90,enc_auto/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png",
+        title: "「區塊鏈賦能BIM：強化建築管理與智能協作 」座談會",
+        date: "4月20日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png",
+        title: "5/29 國際學者講座｜ASCE JCEM 主編 Prof. Carlos Caldas 訪台演講",
+        date: "5月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg/v1/fill/w_1257,h_709,fp_0.50_0.50,q_85,enc_auto/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg",
+        title: "「OpenBIM 與國際標準：共建數位轉型基礎 」分享會",
+        date: "6月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg",
+        title: "BIM基本能力認證-建築建模、機電建模",
+        date: "7月6日",
+        isUpcoming: false,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png/v1/fill/w_1153,h_650,fp_0.50_0.50,q_90,enc_auto/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png",
+        title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
+        date: "8月20日",
+        isUpcoming: true,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png/v1/fill/w_1915,h_1080,fp_0.50_0.50,q_95,enc_auto/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png",
+        title: "BIM Summer programs",
+        date: "9月6日",
+        isUpcoming: true,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg/v1/fill/w_1158,h_653,fp_0.50_0.50,q_85,enc_auto/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg",
+        title: "BIM基本能力認證-建築建模、機電建模",
+        date: "10月20日",
+        isUpcoming: true,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg/v1/fill/w_1958,h_1104,fp_0.50_0.50,q_90,usm_0.66_1.00_0.01,enc_auto/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg",
+        title: "BIM基本能力認證-建築建模、機電建模",
+        date: "11月6日",
+        isUpcoming: true,
+        eventURL: "https://www.bimalliance.tw"
+      },
+      {
+        image: "https://static.wixstatic.com/media/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png",
+        title: "台灣 BIM 聯盟會員線上成果展演--泛亞工程建設股份有限公司",
+        date: "12月20日",
+        isUpcoming: true,
+        eventURL: "https://www.bimalliance.tw"
+      }
+    ]
+    const whiteGradient = document.querySelector('.white-gradient');
+    const collapseButton = document.getElementById('collapse');
+
+    function collapse() {
+      if (eventsList.classList.contains('collapse')) {
+        eventsList.classList.remove('collapse');
+        whiteGradient.style.display = 'none';
+        console.log(whiteGradient);
+      } else {
+        eventsList.classList.add('collapse');
+      }
+    }
+
+    function scrollLft() {
+      outsider.scrollBy({
+        left: -distance,
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollRight() {
+      outsider.scrollBy({
+        left: distance,
+        behavior: 'smooth'
+      });
+    }
+
+    function createEventCard(event) {
+      return `
+        <a class="item" href="${event.eventURL}">
+            <div class="thumbnail-section">
+                <div class="thumbnail">
+                <div class="thumbnail-inner">
+                    <div class="thumbnail-image" style="background-image: url('${event.image}');"></div>
+                </div>
+                <div class="thumbnail-border"></div>
+                </div>
+            </div>
+            <div class="text-section">
+                <div class="event-title">
+                    <p>${event.title}</p>
+                </div>
+                <div class="event-date">
+                    <p>${event.date}</p>
+                </div>
+            </div>
+            ${event.isUpcoming ?
+            `<div class="upcoming-badge">
+                <div class="upcoming-text">
+                <p>即將舉辦</p>
+                </div>
+            </div>` : ''}
+        </a>`;
+    }
+
+    function initializeTimeline() {
+      const timeline = document.getElementById('events');
+      eventsData.map(event => {
+        createEventCard(event);
+        timeline.innerHTML += createEventCard(event);
+      })
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeTimeline();
+    });
+    collapseButton.addEventListener('click', () => {
+      collapse()
+    });
+  </script>
+</body>
+
+</html>
