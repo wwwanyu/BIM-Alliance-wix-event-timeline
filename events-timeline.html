@@ -344,6 +344,12 @@
       border: 0;
     }
 
+    .collapse {
+      height: 220px;
+      overflow: hidden;
+      transition: all 0.6s ease-in-out;
+    }
+
     .events::after {
       content: '';
       display: block;
@@ -408,26 +414,32 @@
       left: initial !important;
     }
 
+    .scroll-container {
+      height: initial;
+    }
+
+    #insider {
+      height: inherit;
+    }
   }
 </style>
 
 <body>
-  <div id="result"></div>
-  <div id="outsider" class="width-100">
+  <div id="outsider" class="width-100 collapse">
     <div id="insider" class="width-100">
       <div class="scroll-container width-100">
         <!-- Even row - events above timeline -->
-        <div id="events" class="events collapse">
+        <div id="events" class="events">
           <div class="timeline-stroke"></div>
         </div>
       </div>
-      <div class="white-gradient"></div>
-      <button id="collapse" aria-label="collapse" onclick="collapse()" class="collapse-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
-          <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
-        </svg>
-      </button>
     </div>
+    <button id="collapse" aria-label="collapse" class="collapse-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
+        <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
+      </svg>
+    </button>
+    <div class="white-gradient"></div>
 
     <!-- Navigation buttons -->
     <button id="button-left" onclick="scrollLft()" class="nav-button left" aria-label="Scroll left">
@@ -448,7 +460,9 @@
   <script>
     const outsider = document.getElementById('outsider');
     const distance = 240;
-    const eventsList = document.getElementById('events');
+    const outsiderHeight = outsider.offsetHeight;
+    const insider = document.getElementById('insider');
+    const eventsContainer = document.getElementById('events');
     const eventsData = [{
         image: "https://static.wixstatic.com/media/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg",
         title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
@@ -538,12 +552,18 @@
     const collapseButton = document.getElementById('collapse');
 
     function collapse() {
-      if (eventsList.classList.contains('collapse')) {
-        eventsList.classList.remove('collapse');
+      if (outsider.classList.contains('collapse')) {
+        outsider.classList.remove('collapse');
         whiteGradient.style.display = 'none';
-        console.log(whiteGradient);
+        collapseButton.style.transform = 'translateX(-50%) rotate(180deg)';
+        insider.style.paddingBottom = '24px';
+        console.log(outsider.offsetHeight);
       } else {
-        eventsList.classList.add('collapse');
+        outsider.classList.add('collapse');
+        whiteGradient.style.display = 'block';
+        collapseButton.style.transform = 'translateX(-50%)';
+        collapseButton.style.position = 'absolute';
+        insider.style.paddingBottom = '0';
       }
     }
 
@@ -599,6 +619,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initializeTimeline();
     });
+
     collapseButton.addEventListener('click', () => {
       collapse()
     });
