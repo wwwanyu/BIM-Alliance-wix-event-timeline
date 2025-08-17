@@ -18,7 +18,6 @@
   }
 
   #outsider {
-    height: 100vh;
     width: 100%;
     overflow: scroll;
     position: relative;
@@ -30,7 +29,6 @@
   }
 
   #insider {
-    position: absolute;
     display: inline-block;
     width: auto;
     overflow: hidden;
@@ -235,26 +233,26 @@
     text-decoration: none;
   }
 
-  .events .item:nth-child(odd) {
+  .events .item:nth-child(even) {
     padding: 0 88px 0 0;
     align-self: end;
   }
 
-  .events .item:nth-child(odd) .upcoming-badge {
+  .events .item:nth-child(even) .upcoming-badge {
     top: 16px;
     left: 70px;
   }
 
-  a.item:nth-child(odd) .text-section {
+  a.item:nth-child(even) .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, rgba(223, 234, 238, 0.00) 100%);
     transition: all 0.5s ease-out;
   }
 
-  a.item:nth-child(odd):hover .text-section {
+  a.item:nth-child(even):hover .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, #DFEAEE 100%);
   }
 
-  .events .item:nth-child(even) {
+  .events .item:nth-child(odd) {
     display: flex;
     grid-row: third-line;
     flex-direction: column-reverse;
@@ -263,11 +261,11 @@
     margin: 0 0 0 160px;
   }
 
-  a.item:nth-child(even):hover .text-section {
+  a.item:nth-child(odd):hover .text-section {
     background: linear-gradient(180deg, #DFEAEE 0%, rgba(223, 234, 238, 0.00) 100%);
   }
 
-  .events .item:nth-child(even) .upcoming-badge {
+  .events .item:nth-child(odd) .upcoming-badge {
     bottom: 16px;
     left: 68px;
   }
@@ -367,16 +365,16 @@
       gap: 12px;
     }
 
-    .events .item:nth-child(even) {
+    .events .item:nth-child(odd) {
       display: flex;
       align-items: flex-start;
     }
 
-    .events .item:nth-child(even) {
+    .events .item:nth-child(odd) {
       margin: 0;
     }
 
-    .events .item:nth-child(odd) {
+    .events .item:nth-child(even) {
       display: flex;
 
       justify-content: flex-start;
@@ -410,10 +408,6 @@
       left: initial !important;
     }
 
-    .collapse {
-      height: 220px;
-    }
-
   }
 </style>
 
@@ -424,15 +418,15 @@
       <div class="scroll-container width-100">
         <!-- Even row - events above timeline -->
         <div id="events" class="events collapse">
-          <button id="collapse" aria-label="collapse" onclick="collapse()" class="collapse-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
-              <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
-            </svg>
-          </button>
           <div class="timeline-stroke"></div>
-          <div class="white-gradient"></div>
         </div>
       </div>
+      <div class="white-gradient"></div>
+      <button id="collapse" aria-label="collapse" onclick="collapse()" class="collapse-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
+          <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
+        </svg>
+      </button>
     </div>
 
     <!-- Navigation buttons -->
