@@ -1,3 +1,5 @@
+<!-- wiz wix -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -474,16 +476,17 @@
   }
 </style>
 
+
 <body>
   <div id="outsider" class="width-100 collapse">
     <div id="insider" class="width-100">
       <div class="scroll-container width-100">
-        <!-- Even row - events above timeline -->
         <div id="events" class="events">
           <div class="timeline-stroke"></div>
         </div>
       </div>
     </div>
+
     <button id="collapse" aria-label="collapse" class="collapse-button">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" viewBox="0 0 16 8" fill="none">
         <path d="M15.6562 0.96649C15.8121 0.818774 15.8187 0.572864 15.671 0.416956C15.5233 0.261069 15.2774 0.254443 15.1215 0.402145L8.19139 6.96806L0.875036 0.214536C0.717274 0.0689103 0.471201 0.0785304 0.325502 0.236183C0.188903 0.384166 0.188768 0.609971 0.319426 0.757613L0.347149 0.785717L7.93048 7.78572C8.08088 7.92454 8.31321 7.92306 8.46179 7.7823L15.6562 0.96649Z" fill="white" />
@@ -491,7 +494,6 @@
     </button>
     <div class="white-gradient"></div>
 
-    <!-- Navigation buttons -->
     <button id="button-left" onclick="scrollLft()" class="nav-button left" aria-label="Scroll left">
       <div class="nav-icon">
         <svg viewBox="0 0 40 40" preserveAspectRatio="none">
@@ -499,6 +501,7 @@
         </svg>
       </div>
     </button>
+
     <button id="button-right" onclick="scrollRight()" class="nav-button right" aria-label="Scroll right">
       <div class="nav-icon">
         <svg viewBox="0 0 40 40" preserveAspectRatio="none">
@@ -507,97 +510,12 @@
       </div>
     </button>
   </div>
+
   <script>
     const outsider = document.getElementById('outsider');
     const distance = 240;
-    const outsiderHeight = outsider.offsetHeight;
     const insider = document.getElementById('insider');
     const eventsContainer = document.getElementById('events');
-    const eventsData = [{
-        image: "https://static.wixstatic.com/media/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg",
-        title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
-        date: "1月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png/v1/fill/w_1171,h_660,fp_0.50_0.50,q_90,enc_auto/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png",
-        title: "有BIM的世界長怎樣-臺大BIM研究中心暑期高中職研習營",
-        date: "2月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png/v1/fill/w_596,h_336,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_auto/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png",
-        title: "【臺大國際暑期課程】 Digital & Green Transformation of the Built Environment",
-        date: "3月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png/v1/fill/w_1241,h_700,fp_0.50_0.50,q_90,enc_auto/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png",
-        title: "「區塊鏈賦能BIM：強化建築管理與智能協作 」座談會",
-        date: "4月20日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png",
-        title: "5/29 國際學者講座｜ASCE JCEM 主編 Prof. Carlos Caldas 訪台演講",
-        date: "5月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg/v1/fill/w_1257,h_709,fp_0.50_0.50,q_85,enc_auto/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg",
-        title: "「OpenBIM 與國際標準：共建數位轉型基礎 」分享會",
-        date: "6月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg",
-        title: "BIM基本能力認證-建築建模、機電建模",
-        date: "7月6日",
-        isUpcoming: false,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png/v1/fill/w_1153,h_650,fp_0.50_0.50,q_90,enc_auto/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png",
-        title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
-        date: "8月20日",
-        isUpcoming: true,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png/v1/fill/w_1915,h_1080,fp_0.50_0.50,q_95,enc_auto/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png",
-        title: "BIM Summer programs",
-        date: "9月6日",
-        isUpcoming: true,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg/v1/fill/w_1158,h_653,fp_0.50_0.50,q_85,enc_auto/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg",
-        title: "BIM基本能力認證-建築建模、機電建模",
-        date: "10月20日",
-        isUpcoming: true,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg/v1/fill/w_1958,h_1104,fp_0.50_0.50,q_90,usm_0.66_1.00_0.01,enc_auto/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg",
-        title: "BIM基本能力認證-建築建模、機電建模",
-        date: "11月6日",
-        isUpcoming: true,
-        eventURL: "https://www.bimalliance.tw"
-      },
-      {
-        image: "https://static.wixstatic.com/media/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png",
-        title: "台灣 BIM 聯盟會員線上成果展演--泛亞工程建設股份有限公司",
-        date: "12月20日",
-        isUpcoming: true,
-        eventURL: "https://www.bimalliance.tw"
-      }
-    ]
     const whiteGradient = document.querySelector('.white-gradient');
     const collapseButton = document.getElementById('collapse');
 
@@ -607,7 +525,6 @@
         whiteGradient.style.display = 'none';
         collapseButton.style.transform = 'translateX(-50%) rotate(180deg)';
         insider.style.paddingBottom = '24px';
-        console.log(outsider.offsetHeight);
       } else {
         outsider.classList.add('collapse');
         whiteGradient.style.display = 'block';
@@ -633,47 +550,55 @@
 
     function createEventCard(event) {
       return `
-        <a class="item" href="${event.eventURL}">
-            <div class="thumbnail-section">
-                <div class="thumbnail">
-                <div class="thumbnail-inner">
-                    <div class="thumbnail-image" style="background-image: url('${event.image}');"></div>
-                </div>
-                <div class="thumbnail-border"></div>
-                </div>
+      <a target="_blank" rel="noopener noreferrer" class="item" href="${event.eventURL || '#'}">
+        <div class="thumbnail-section">
+          <div class="thumbnail">
+            <div class="thumbnail-inner">
+              <div class="thumbnail-image" style="background-image: url('${event.image || ''}');"></div>
             </div>
-            <div class="text-section">
-                <div class="event-title">
-                    <p>${event.title}</p>
-                </div>
-                <div class="event-date">
-                    <p>${event.date}</p>
-                </div>
-            </div>
-            ${event.isUpcoming ?
-            `<div class="upcoming-badge">
-                <div class="upcoming-text">
-                <p>即將舉辦</p>
-                </div>
-            </div>` : ''}
-        </a>`;
+            <div class="thumbnail-border"></div>
+          </div>
+        </div>
+        <div class="text-section">
+          <div class="event-title"><p>${event.title || ''}</p></div>
+          <div class="event-date"><p>${event.date || ''}</p></div>
+        </div>
+        ${event.isUpcoming ? `
+        <div class="upcoming-badge">
+          <div class="upcoming-text"><p>即將舉辦</p></div>
+        </div>` : ''}
+      </a>`;
     }
 
-    function initializeTimeline() {
-      const timeline = document.getElementById('events');
-      eventsData.map(event => {
-        createEventCard(event);
-        timeline.innerHTML += createEventCard(event);
-      })
+    // Renders the timeline given an array of events
+    function renderTimeline(events) {
+      eventsContainer.innerHTML = `<div class="timeline-stroke"></div>`; // reset
+      events.forEach(event => {
+        eventsContainer.innerHTML += createEventCard(event);
+      });
     }
+
     document.addEventListener('DOMContentLoaded', () => {
-      initializeTimeline();
+      // Optionally render initial hardcoded data if needed
+      // renderTimeline(eventsData);
     });
 
-    collapseButton.addEventListener('click', () => {
-      collapse()
+    window.addEventListener('message', (event) => {
+      console.log('Message Received in iframe:', event.data); // <- this should show the sent data
+      console.log(event.data);
+      console.log(typeof event.data);
+      console.log(Array.isArray(event.data));
+      if (event.data && Array.isArray(event.data)) {
+        console.log('render Timeline'); // <- this should show the sent data
+
+        renderTimeline(event.data); // your function to update the timeline
+      }
     });
+
+
+    collapseButton.addEventListener('click', () => collapse());
   </script>
+
 </body>
 
 </html>
