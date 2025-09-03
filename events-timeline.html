@@ -284,26 +284,26 @@
     text-decoration: none;
   }
 
-  .events .item:nth-child(even) {
+  .events .item:nth-child(odd) {
     padding: 0 88px 0 0;
     align-self: end;
   }
 
-  .events .item:nth-child(even) .upcoming-badge {
+  .events .item:nth-child(odd) .upcoming-badge {
     top: 16px;
     left: 70px;
   }
 
-  a.item:nth-child(even) .text-section {
+  a.item:nth-child(odd) .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, rgba(223, 234, 238, 0.00) 100%);
     transition: all 0.5s ease-out;
   }
 
-  a.item:nth-child(even):hover .text-section {
+  a.item:nth-child(odd):hover .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, #DFEAEE 100%);
   }
 
-  .events .item:nth-child(odd) {
+  .events .item:nth-child(even) {
     display: flex;
     grid-row: third-line;
     flex-direction: column-reverse;
@@ -312,11 +312,11 @@
     margin: 0 0 0 160px;
   }
 
-  a.item:nth-child(odd):hover .text-section {
+  a.item:nth-child(even):hover .text-section {
     background: linear-gradient(180deg, #DFEAEE 0%, rgba(223, 234, 238, 0.00) 100%);
   }
 
-  .events .item:nth-child(odd) .upcoming-badge {
+  .events .item:nth-child(even) .upcoming-badge {
     bottom: 16px;
     left: 68px;
   }
@@ -347,6 +347,10 @@
   }
 
   @media screen and (max-width: 768px) {
+    #outsider {
+      overflow: hidden;
+    }
+
     .timeline-stroke {
       display: none;
     }
@@ -421,16 +425,16 @@
       gap: 12px;
     }
 
-    .events .item:nth-child(odd) {
+    .events .item:nth-child(even) {
       display: flex;
       align-items: flex-start;
     }
 
-    .events .item:nth-child(odd) {
+    .events .item:nth-child(even) {
       margin: 0;
     }
 
-    .events .item:nth-child(even) {
+    .events .item:nth-child(odd) {
       display: flex;
 
       justify-content: flex-start;
@@ -466,10 +470,23 @@
 
     .scroll-container {
       height: initial;
+      padding: initial
     }
 
     #insider {
       height: inherit;
+    }
+  }
+
+  @media screen and (min-width: 2960px) {
+    #outsider {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .nav-button {
+      display: none;
     }
   }
 </style>
