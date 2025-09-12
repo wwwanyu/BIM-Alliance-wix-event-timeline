@@ -120,7 +120,7 @@
   .text-section {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
@@ -218,55 +218,6 @@
     grid-template-rows: max-content 6px min-content;
   }
 
-  /* reverse the order of thhe events */
-  .events>.item:nth-child(1) {
-    order: 12;
-  }
-
-  .events>.item:nth-child(2) {
-    order: 11;
-  }
-
-  .events>.item:nth-child(3) {
-    order: 10;
-  }
-
-  .events>.item:nth-child(4) {
-    order: 9;
-  }
-
-  .events>.item:nth-child(5) {
-    order: 8;
-  }
-
-  .events>.item:nth-child(6) {
-    order: 7;
-  }
-
-  .events>.item:nth-child(7) {
-    order: 6;
-  }
-
-  .events>.item:nth-child(8) {
-    order: 5;
-  }
-
-  .events>.item:nth-child(9) {
-    order: 4;
-  }
-
-  .events>.item:nth-child(10) {
-    order: 3;
-  }
-
-  .events>.item:nth-child(11) {
-    order: 2;
-  }
-
-  .events>.item:nth-child(12) {
-    order: 1;
-  }
-
   .timeline-stroke {
     grid-row-start: 2;
     grid-row-end: 3;
@@ -284,26 +235,26 @@
     text-decoration: none;
   }
 
-  .events .item:nth-child(odd) {
+  .events .item:nth-child(even) {
     padding: 0 88px 0 0;
     align-self: end;
   }
 
-  .events .item:nth-child(odd) .upcoming-badge {
+  .events .item:nth-child(even) .upcoming-badge {
     top: 16px;
     left: 70px;
   }
 
-  a.item:nth-child(odd) .text-section {
+  a.item:nth-child(even) .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, rgba(223, 234, 238, 0.00) 100%);
     transition: all 0.5s ease-out;
   }
 
-  a.item:nth-child(odd):hover .text-section {
+  a.item:nth-child(even):hover .text-section {
     background: linear-gradient(180deg, rgba(223, 234, 238, 0.00) 0%, #DFEAEE 100%);
   }
 
-  .events .item:nth-child(even) {
+  .events .item:nth-child(odd) {
     display: flex;
     grid-row: third-line;
     flex-direction: column-reverse;
@@ -312,11 +263,11 @@
     margin: 0 0 0 160px;
   }
 
-  a.item:nth-child(even):hover .text-section {
+  a.item:nth-child(odd):hover .text-section {
     background: linear-gradient(180deg, #DFEAEE 0%, rgba(223, 234, 238, 0.00) 100%);
   }
 
-  .events .item:nth-child(even) .upcoming-badge {
+  .events .item:nth-child(odd) .upcoming-badge {
     bottom: 16px;
     left: 68px;
   }
@@ -368,9 +319,10 @@
     .events {
       display: flex;
       justify-content: start;
-      flex-direction: column-reverse;
+      flex-direction: column;
       width: 100%;
       overflow: hidden;
+      padding: 16px 8px;
     }
 
     .white-gradient {
@@ -413,7 +365,7 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 44px;
+      left: 31px;
       z-index: -1;
     }
 
@@ -422,19 +374,19 @@
       align-self: start;
       flex-direction: row !important;
       width: 100%;
-      gap: 12px;
+      gap: 4px;
     }
 
-    .events .item:nth-child(even) {
+    .events .item:nth-child(odd) {
       display: flex;
       align-items: flex-start;
     }
 
-    .events .item:nth-child(even) {
+    .events .item:nth-child(odd) {
       margin: 0;
     }
 
-    .events .item:nth-child(odd) {
+    .events .item:nth-child(even) {
       display: flex;
 
       justify-content: flex-start;
@@ -442,7 +394,7 @@
     }
 
     .event-title {
-      width: calc(100% - 140px);
+      width: calc(100% - 148px);
       font-size: 14px;
     }
 
@@ -462,10 +414,10 @@
 
     .upcoming-badge {
       position: absolute;
-      top: initial !important;
-      right: 0;
-      bottom: 24px !important;
+      top: 28px !important;
+      right: -12px;
       left: initial !important;
+      padding: 2px 8px;
     }
 
     .scroll-container {
@@ -475,6 +427,14 @@
 
     #insider {
       height: inherit;
+    }
+
+    .thumbnail,
+    .thumbnail-inner,
+    .thumbnail-border {
+      border-radius: 18px;
+      width: 50px;
+      height: 50px;
     }
   }
 
@@ -533,84 +493,84 @@
     const eventsData = [{
         image: "https://static.wixstatic.com/media/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_526789897ac344f486393396b0d2ed71~mv2.jpg",
         title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
-        date: "1月6日",
+        date: "2024.12.31",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png/v1/fill/w_1171,h_660,fp_0.50_0.50,q_90,enc_auto/911c52_25e7f7bf87fd4d38ba1391f687836f53~mv2.png",
         title: "有BIM的世界長怎樣-臺大BIM研究中心暑期高中職研習營",
-        date: "2月6日",
+        date: "2025.01.01",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png/v1/fill/w_596,h_336,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_auto/911c52_553a0453aaf84de28ae985c1b3a85a32~mv2.png",
         title: "【臺大國際暑期課程】 Digital & Green Transformation of the Built Environment",
-        date: "3月6日",
+        date: "2025年1月1日",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png/v1/fill/w_1241,h_700,fp_0.50_0.50,q_90,enc_auto/911c52_aca139ec24f848638c3de1b0e942830c~mv2.png",
         title: "「區塊鏈賦能BIM：強化建築管理與智能協作 」座談會",
-        date: "4月20日",
+        date: "2025年1月1日",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_5baafd5929ce46ff9c96d9aa876ed68d~mv2.png",
         title: "5/29 國際學者講座｜ASCE JCEM 主編 Prof. Carlos Caldas 訪台演講",
-        date: "5月6日",
+        date: "2025年2月1日",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg/v1/fill/w_1257,h_709,fp_0.50_0.50,q_85,enc_auto/911c52_75e34d2cf8ff4295865f5f5f0822dfc3~mv2.jpg",
         title: "「OpenBIM 與國際標準：共建數位轉型基礎 」分享會",
-        date: "6月6日",
+        date: "2025.05.01",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg/v1/fill/w_1277,h_720,fp_0.50_0.50,q_85,enc_auto/911c52_583cd3d5e16c4974898503cc01448370~mv2.jpg",
         title: "BIM基本能力認證-建築建模、機電建模",
-        date: "7月6日",
+        date: "2025.06.01",
         isUpcoming: false,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png/v1/fill/w_1153,h_650,fp_0.50_0.50,q_90,enc_auto/911c52_693525bcceb44d2cbb726d4267b77f8a~mv2.png",
         title: "研討會影片回看】6/20 BSI Webinar- 2050淨零排放限時賽 人居環境智慧布局",
-        date: "8月20日",
+        date: "2025.07.01",
         isUpcoming: true,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png/v1/fill/w_1915,h_1080,fp_0.50_0.50,q_95,enc_auto/911c52_53bff818ad8e484f9b14df7e643df200~mv2.png",
         title: "BIM Summer programs",
-        date: "9月6日",
+        date: "2025.08.01",
         isUpcoming: true,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg/v1/fill/w_1158,h_653,fp_0.50_0.50,q_85,enc_auto/911c52_92cef4d3294647aaa583ebd79c9bbbf1~mv2.jpg",
         title: "BIM基本能力認證-建築建模、機電建模",
-        date: "10月20日",
+        date: "2025.09.01",
         isUpcoming: true,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg/v1/fill/w_1958,h_1104,fp_0.50_0.50,q_90,usm_0.66_1.00_0.01,enc_auto/911c52_16e81a29091848e68de5bd4c963cbc9e~mv2.jpg",
         title: "BIM基本能力認證-建築建模、機電建模",
-        date: "11月6日",
+        date: "2025.10.01",
         isUpcoming: true,
         eventURL: "https://www.bimalliance.tw"
       },
       {
         image: "https://static.wixstatic.com/media/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png/v1/fill/w_721,h_407,fp_0.50_0.50,lg_1,q_85,enc_auto/766e4b_1e0337bebcc04b01a5767c250720d080~mv2.png",
         title: "台灣 BIM 聯盟會員線上成果展演--泛亞工程建設股份有限公司",
-        date: "12月20日",
+        date: "2025年11月31日",
         isUpcoming: true,
         eventURL: "https://www.bimalliance.tw"
       }
@@ -683,10 +643,10 @@
         timeline.innerHTML += createEventCard(event);
       })
     }
+
     document.addEventListener('DOMContentLoaded', () => {
       initializeTimeline();
     });
-
     collapseButton.addEventListener('click', () => {
       collapse()
     });
